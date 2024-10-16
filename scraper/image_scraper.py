@@ -2,9 +2,11 @@ import requests
 from bs4 import BeautifulSoup
 from urllib.parse import urljoin
 import json
+import os
+from concurrent.futures import ThreadPoolExecutor
 
 
-def scrape_gem_data(url, limit=100):
+def scrape_gem_data(url, limit=100, download_images=False):
     response = requests.get(url)
 
     if response.status_code == 200:
@@ -13,6 +15,7 @@ def scrape_gem_data(url, limit=100):
         gem_articles = soup.find_all("article", class_="retail")
         print(f"Found {len(gem_articles)} gem articles")
         gems_data = []
+        image_download_tasks = []  # Initialize the list here
         processed_count = 0
 
         for article in gem_articles:
@@ -75,13 +78,24 @@ def scrape_gem_data(url, limit=100):
                     gem_data["price"] = int(price.replace("$", "").replace(",", ""))
                     print(f"Price: {gem_data['price']}")
 
-            img_tag = article.find("img")
-            if img_tag and img_tag.has_attr("src"):
-                small_img = urljoin(url, img_tag["src"])
-                gem_data["small_img"] = small_img
-                print(f"Image URL: {gem_data['small_img']}")
+            if download_images:
+                img_tag = article.find("img")
+                if img_tag and img_tag.has_attr("src"):
+                    small_img = urljoin(url, img_tag["src"])
+                    gem_data["small_img"] = small_img
+                    print(f"Image URL: {gem_data['small_img']}")
+
+                    # Prepare image download task
+                    filename = f"images/{gem_data['item_num']}.jpg"
+                    image_download_tasks.append((small_img, filename))
 
             gems_data.append(gem_data)
+
+        # Download images concurrently
+        if download_images:
+            os.makedirs("images", exist_ok=True)
+            with ThreadPoolExecutor(max_workers=10) as executor:
+                executor.map(lambda x: download_image(*x), image_download_tasks)
 
         return gems_data
     else:
@@ -89,18 +103,28 @@ def scrape_gem_data(url, limit=100):
         return []
 
 
+def download_image(url, filename):
+    response = requests.get(url)
+    if response.status_code == 200:
+        with open(filename, "wb") as f:
+            f.write(response.content)
+        print(f"Downloaded: {filename}")
+    else:
+        print(f"Failed to download: {url}")
+
+
 # Example usage
 if __name__ == "__main__":
-    # website_url = input("Enter the website URL: ")
     website_url = "https://www.johndyergems.com/gemstones/sapphire-all.html"
-    gems_data = scrape_gem_data(website_url)
+    gems_data = scrape_gem_data(website_url, download_images=True)
 
-    # Save data to gems.json
-    with open("gems.json", "w") as json_file:
+    # Save data to gems.json in the app/ directory
+    with open("app/gems.json", "w") as json_file:
         json.dump(gems_data, json_file, indent=2)
 
-    print(f"\nGem data has been saved to gems.json")
+    print(f"\nGem data has been saved to app/gems.json")
     print(f"Total gems found: {len(gems_data)} (limited to 100)")
+    print("Images have been downloaded to the 'images' folder")
 
     # Print the first few gems as an example
     print("\nSample of gems found:")
