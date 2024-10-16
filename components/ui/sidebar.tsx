@@ -1,6 +1,6 @@
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import { ScrollArea } from "./scroll-area";
+// import { ScrollArea } from "./scroll-area";
 
 const dummyCategories = [
   "Sapphires",
@@ -13,9 +13,9 @@ const dummyCategories = [
   "Garnets",
 ];
 
-interface SidebarProps extends React.HTMLAttributes<HTMLDivElement> {}
+// interface SidebarProps extends React.HTMLAttributes<HTMLDivElement> {}
 
-export function Sidebar({ className }: SidebarProps) {
+export function Sidebar({ className }: { className?: string }) {
   return (
     <div className={cn("pb-12", className)}>
       <div className="space-y-4 py-4">

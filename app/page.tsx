@@ -48,7 +48,7 @@ export default function GemStorePage() {
                         <GemCard
                           key={gem.item_num}
                           gem_type={gem.gem_type}
-                          cut={gem.cut}
+                          cut={gem.cut || ""}
                           small_img={gem.small_img}
                           item_num={gem.item_num}
                           price={gem.price}
