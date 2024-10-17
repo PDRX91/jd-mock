@@ -20,8 +20,8 @@ interface FlickeringGridProps {
 }
 
 const FlickeringGrid: React.FC<FlickeringGridProps> = ({
-  squareSize = 4,
-  gridGap = 6,
+  squareSize = 5,
+  gridGap = 5,
   flickerChance = 0.3,
   color = "rgb(0, 0, 0)",
   width,
@@ -75,7 +75,7 @@ const FlickeringGrid: React.FC<FlickeringGridProps> = ({
         dpr,
       };
     },
-    [squareSize, gridGap, width, height, maxOpacity],
+    [squareSize, gridGap, width, height, maxOpacity]
   );
 
   const updateSquares = useCallback(
@@ -86,7 +86,7 @@ const FlickeringGrid: React.FC<FlickeringGridProps> = ({
         }
       }
     },
-    [flickerChance, maxOpacity],
+    [flickerChance, maxOpacity]
   );
 
   const drawGrid = useCallback(
@@ -97,7 +97,7 @@ const FlickeringGrid: React.FC<FlickeringGridProps> = ({
       cols: number,
       rows: number,
       squares: Float32Array,
-      dpr: number,
+      dpr: number
     ) => {
       ctx.clearRect(0, 0, width, height);
       ctx.fillStyle = "transparent";
@@ -107,16 +107,30 @@ const FlickeringGrid: React.FC<FlickeringGridProps> = ({
         for (let j = 0; j < rows; j++) {
           const opacity = squares[i * rows + j];
           ctx.fillStyle = `${memoizedColor}${opacity})`;
-          ctx.fillRect(
-            i * (squareSize + gridGap) * dpr,
-            j * (squareSize + gridGap) * dpr,
-            squareSize * dpr,
-            squareSize * dpr,
-          );
+
+          const x = (i * (squareSize + gridGap) + squareSize / 2) * dpr;
+          const y = (j * (squareSize + gridGap) + squareSize / 2) * dpr;
+          const size = squareSize * dpr;
+
+          // Draw star shape
+          ctx.beginPath();
+          for (let k = 0; k < 5; k++) {
+            const angle = (k * 4 * Math.PI) / 5 - Math.PI / 2;
+            const x1 = x + (Math.cos(angle) * size) / 2;
+            const y1 = y + (Math.sin(angle) * size) / 2;
+            ctx.lineTo(x1, y1);
+
+            const innerAngle = angle + Math.PI / 5;
+            const x2 = x + (Math.cos(innerAngle) * size) / 4;
+            const y2 = y + (Math.sin(innerAngle) * size) / 4;
+            ctx.lineTo(x2, y2);
+          }
+          ctx.closePath();
+          ctx.fill();
         }
       }
     },
-    [memoizedColor, squareSize, gridGap],
+    [memoizedColor, squareSize, gridGap]
   );
 
   useEffect(() => {
@@ -149,7 +163,7 @@ const FlickeringGrid: React.FC<FlickeringGridProps> = ({
       ([entry]) => {
         setIsInView(entry.isIntersecting);
       },
-      { threshold: 0 },
+      { threshold: 0 }
     );
 
     observer.observe(canvas);
@@ -170,7 +184,7 @@ const FlickeringGrid: React.FC<FlickeringGridProps> = ({
   return (
     <canvas
       ref={canvasRef}
-      className={`size-full pointer-events-none ${className}`}
+      className={`size-full pointer-events-none ${className} group-hover:opacity-90 opacity-10 transition-opacity duration-1000`}
       style={{
         width: width || "100%",
         height: height || "100%",

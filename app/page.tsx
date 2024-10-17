@@ -1,20 +1,13 @@
+import { Gems } from "./components/gems";
 import { Metadata } from "next";
-// import Image from "next/image";
-// import { PlusCircledIcon } from "@radix-ui/react-icons";
-
-// import { Button } from "../components/ui/button";
-import { ScrollArea, ScrollBar } from "../components/ui/scroll-area";
 import { Separator } from "../components/ui/separator";
+import { Sidebar } from "../components/ui/sidebar";
 // import {
 //   Tabs,
 //   TabsContent,
 //   TabsList,
 //   TabsTrigger,
 // } from "../components/ui/tabs";
-
-import { GemCard } from "./components/gem-card";
-import { Sidebar } from "../components/ui/sidebar";
-import gemsData from "./gems.json";
 
 export const metadata: Metadata = {
   title: "Gem Store",
@@ -42,26 +35,7 @@ export default function GemStorePage() {
                 </div>
                 <Separator className="my-4" />
                 <div className="relative">
-                  <ScrollArea>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4">
-                      {gemsData.map((gem) => (
-                        <GemCard
-                          key={gem.item_num}
-                          gem_type={gem.gem_type}
-                          cut={gem.cut || ""}
-                          small_img={gem.small_img}
-                          item_num={gem.item_num}
-                          price={gem.price}
-                          size_carats={gem.size_carats}
-                          dimensions={{
-                            width: parseFloat(gem.dimensions.width),
-                            height: parseFloat(gem.dimensions.height),
-                          }}
-                        />
-                      ))}
-                    </div>
-                    <ScrollBar orientation="horizontal" />
-                  </ScrollArea>
+                  <Gems />
                 </div>
               </div>
             </div>
