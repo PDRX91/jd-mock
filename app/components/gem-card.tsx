@@ -31,7 +31,7 @@ export function GemCard({
   return (
     <div
       className={cn(
-        "min-w-[250px] rounded-lg border border-gray-200 group hover:border-gray-300 hover:shadow-md transition-all duration-1000 bg-zinc-100 hover:bg-zinc-50 relative",
+        "min-w-[250px] rounded-lg border border-gray-200 group hover:border-gray-300 hover:shadow-md transition-all duration-700 bg-zinc-100 hover:bg-zinc-50 relative",
         className
       )}
     >
@@ -43,7 +43,7 @@ export function GemCard({
           alt={gem_type}
           width={imageWidth}
           height={imageHeight}
-          className="h-auto w-auto object-cover transition-all duration-500 group-hover:scale-150 scale-125 aspect-square"
+          className="h-auto w-auto object-cover transition-all ease-in-out duration-700 group-hover:scale-150 scale-125 aspect-square"
         />
       </div>
       <div className="space-y-1 text-sm flex flex-col justify-between p-4">

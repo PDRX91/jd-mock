@@ -27,7 +27,7 @@ const FlickeringGrid: React.FC<FlickeringGridProps> = ({
   width,
   height,
   className,
-  maxOpacity = 0.3,
+  maxOpacity = 0.2,
 }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [isInView, setIsInView] = useState(false);
@@ -147,7 +147,8 @@ const FlickeringGrid: React.FC<FlickeringGridProps> = ({
     const animate = (time: number) => {
       if (!isInView) return;
 
-      const deltaTime = (time - lastTime) / 1000;
+      const deltaTime =
+        (time - lastTime) / (Math.floor(Math.random() * 4001) + 1000);
       lastTime = time;
 
       updateSquares(squares, deltaTime);
@@ -184,7 +185,7 @@ const FlickeringGrid: React.FC<FlickeringGridProps> = ({
   return (
     <canvas
       ref={canvasRef}
-      className={`size-full pointer-events-none ${className} group-hover:opacity-90 opacity-10 transition-opacity duration-1000`}
+      className={`size-full pointer-events-none ${className} group-hover:blur-0 blur-lg transition-blur ease-out-quart duration-700`}
       style={{
         width: width || "100%",
         height: height || "100%",
