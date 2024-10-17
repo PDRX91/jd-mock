@@ -31,12 +31,12 @@ export function GemCard({
   return (
     <div
       className={cn(
-        "min-w-[250px] rounded-lg border border-gray-200 group hover:border-gray-300 hover:shadow-md transition-all duration-700 bg-zinc-100 hover:bg-zinc-50 relative",
+        "w-[250px] rounded-lg border border-gray-200 group hover:border-gray-300 hover:shadow-md transition-all duration-700 bg-zinc-100 hover:bg-zinc-50 relative",
         className
       )}
     >
       <FlickeringGrid width={250} height={250} />
-      {/* <div className="flex justify-center"> */}
+      {/* Image positioning */}
       <div className="absolute top-0 left-1/2 transform -translate-x-1/2 translate-y-1/2">
         <Image
           src={small_img}
@@ -46,22 +46,24 @@ export function GemCard({
           className="h-auto w-auto object-cover transition-all ease-in-out duration-700 group-hover:scale-150 scale-125 aspect-square"
         />
       </div>
-      <div className="space-y-1 text-sm flex flex-col justify-between p-4">
-        <div>
+      {/* Content layout */}
+      <div className="flex flex-col p-4 border-t border-gray-200 h-[200px] space-y-3">
+        {/* Gem title and cut */}
+        <div className="basis-1/3">
           <h3 className="font-medium leading-tight line-clamp-2">{gem_type}</h3>
-          <p className="text-xs text-muted-foreground">{cut}</p>
+          <p className="text-xs">{cut}</p>
         </div>
-        <div>
-          <div>
-            <p className="text-xs text-muted-foreground">
-              {dimensions.width} mm x {dimensions.height} mm
-            </p>
-            <p className="text-xs text-muted-foreground">{size_carats}</p>
-          </div>
-          <p className="text-sm font-medium">Item # {item_num}</p>
+        {/* Dimensions and item number */}
+        <div className="basis-1/3">
+          <p className="text-xs text-muted-foreground">
+            {dimensions.width} mm x {dimensions.height} mm
+          </p>
+          <p className="text-xs text-muted-foreground">{size_carats}</p>
+          <p className="text-xs text-muted-foreground">Item # {item_num}</p>
         </div>
-        <div className="flex items-center justify-between">
-          <p className="text-sm font-medium">${price}</p>
+        {/* Price and add to cart button */}
+        <div className="basis-1/3 flex items-center justify-between">
+          <p className="text-xl font-bold text-violet-800">${price}</p>
           <ShinyButton>Add to Cart</ShinyButton>
         </div>
       </div>
