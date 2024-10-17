@@ -2,6 +2,7 @@ import Image from "next/image";
 // import { PlusCircledIcon } from "@radix-ui/react-icons";
 
 import { cn } from "@/lib/utils";
+import ShinyButton from "@/components/ui/shiny-button";
 
 interface GemCardProps {
   className?: string;
@@ -55,9 +56,7 @@ export function GemCard({
       </div>
       <div className="flex items-center justify-between">
         <p className="text-sm font-medium">${price}</p>
-        <button className="text-xs text-blue-500 hover:underline">
-          Add to Cart
-        </button>
+        <ShinyButton>Add to Cart</ShinyButton>
       </div>
     </div>
   );
