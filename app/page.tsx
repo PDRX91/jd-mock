@@ -2,6 +2,7 @@ import { Gems } from "@/components/gems";
 import { Metadata } from "next";
 import { Separator } from "../components/ui/separator";
 import { Sidebar } from "../components/ui/sidebar";
+import Filter from "@/components/filter";
 // import {
 //   Tabs,
 //   TabsContent,
@@ -35,7 +36,9 @@ export default function GemStorePage() {
                 </div>
                 <Separator className="my-4" />
                 <div className="relative">
-                  <Gems />
+                  <Filter>
+                    <Gems />
+                  </Filter>
                 </div>
               </div>
             </div>
