@@ -1,4 +1,4 @@
-import gemsData from "../gems.json";
+import gemsData from "../app/gems.json";
 
 import { GemCard } from "./gem-card";
 

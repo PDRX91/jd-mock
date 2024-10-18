@@ -1,4 +1,4 @@
-import { Gems } from "./components/gems";
+import { Gems } from "@/components/gems";
 import { Metadata } from "next";
 import { Separator } from "../components/ui/separator";
 import { Sidebar } from "../components/ui/sidebar";
